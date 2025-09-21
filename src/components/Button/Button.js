@@ -1,7 +1,7 @@
 import React from "react";
 import style from './Button.module.css';
 
-export default function Button({children, disabled, type="primary", onClick, fullLength, styles = {}}) {
+export default function Button({children, disabled, type="primary", onClick=() => {}, fullLength, styles = {}}) {
 
     const classHandle = () => {
         switch (type) {

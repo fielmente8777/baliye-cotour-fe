@@ -25,7 +25,7 @@ const NavBar = () => {
     return (
         <div className={styles.navbar}>
             <div className={styles.contentWrapper}>
-                <div style={{ cursor: "pointer" }} onClick={() => window.location.pathname = '/kurta'} className={styles.text}>Coord Set</div>
+                <div style={{ cursor: "pointer" }} onClick={() => window.location.pathname = '/kurta'} className={styles.text}>Kurti</div>
                 <div style={{ cursor: "pointer" }} className={styles.text}>Potli Bags</div>
             </div>
             <Image
@@ -37,7 +37,7 @@ const NavBar = () => {
                 onClick={() => window.location.pathname = "/"}
                 style={{ marginRight: '7rem', cursor: "pointer" }}
             />
-            {!token ? <div className={styles.contentWrapper}>
+            {token ? <div className={styles.contentWrapper}>
                 <div style={{ cursor: "pointer" }} onClick={() => window.location.pathname = "/cart"}><img src="/ShoppingCart.svg" alt="" /></div>
                 <div style={{ cursor: "pointer" }} onClick={() => window.location.pathname = "/account"}><img src="/User.svg" alt="" /></div>
             </div> : <>

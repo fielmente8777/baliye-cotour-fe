@@ -9,6 +9,8 @@ import CIcon from '@coreui/icons-react';
 import { signIn } from "next-auth/react";
 import Button from "@/components/Button/Button";
 import OTPInput from "react-otp-input";
+import axios from "axios";
+import { BASE_URL, setCookie } from "@/lib/cookies";
 
 
 export default function Home() {
@@ -20,6 +22,44 @@ export default function Home() {
     const [verifyOtp, setVerifyOtp] = useState(false);
 
     const countries = Object.keys(countryIcons);
+
+    const handleLogin = async () => {
+        if (verifyOtp) {
+            const url = `${BASE_URL}/auth/otp/verify?phoneNumber=${number}&otp=${otp}`;
+             await axios.post(url, {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then((res) => {
+                if (res.data.data.otpVerified) {
+                    setCookie("baliye-token", res.data.data.token, 7);
+                    setCookie("baliye-user", JSON.stringify(res.data.data.user), 7);
+                    window.location.href = '/';
+                } else {
+                    alert(res.data.data.message || "Something went wrong");
+                }
+            }).catch((err) => {
+                console.error(err);
+                alert("Failed to send OTP. Please try again.");
+            });
+        } else {
+            const url = `${BASE_URL}/auth/otp/send?phoneNumber=${number}`;
+            await axios.post(url, {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then((res) => {
+                if (res.data.data.success) {
+                    setVerifyOtp(true);
+                } else {
+                    alert(res.data.data.message || "Something went wrong");
+                }
+            }).catch((err) => {
+                console.error(err);
+                alert("Failed to send OTP. Please try again.");
+            });
+        }
+    }
 
     return (
         <div className={styles.page}>
@@ -35,7 +75,7 @@ export default function Home() {
                             <CIcon size="sm" width={50} icon={countryIcons[country]} title={countryData[country]?.phone} />
                         </div>
                         <div onClick={() => setActive(!active)}><img src="/CaretDown.svg" alt="" style={{ transform: active ? 'rotate(180deg)' : '' }} /></div>
-                        <input type="text" className={styles.textBoxNone} onChange={e => setNumber(e.value)} placeholder="123 456 7890" />
+                        <input type="text" className={styles.textBoxNone} onChange={e => setNumber(e.target.value)} placeholder="123 456 7890" />
                     </div>
                     {active && <div className={styles.countryDrop}>
                         {
@@ -48,7 +88,7 @@ export default function Home() {
                         <OTPInput
                             value={otp}
                             onChange={setOtp}
-                            numInputs={4}
+                            numInputs={6}
                             renderSeparator={<span></span>}
                             renderInput={(props) => <input {...props} />}
                             inputStyle={{
@@ -63,7 +103,7 @@ export default function Home() {
                             />
                     </div>
                 }
-                <Button disabled={number === ""} fullLength>{verifyOtp ? 'Verif OTP' : "Let's go"}</Button>
+                <Button disabled={number === ""} onClick={() => handleLogin()} fullLength>{verifyOtp ? 'Verif OTP' : "Let's go"}</Button>
                 {verifyOtp && <Button type="text" fullLength>Resend OTP</Button>}
                 <div className={styles.lineWrapper}>
                     <div className={styles.line} />
@@ -87,4 +127,4 @@ export default function Home() {
             />
         </div>
     );
-}
+};

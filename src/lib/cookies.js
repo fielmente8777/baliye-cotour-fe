@@ -20,3 +20,19 @@ export function setCookie(name, value, days) {
 export function deleteCookie(name) {
     document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
+
+export function getCookie(name) {
+  const decodedCookies = decodeURIComponent(document.cookie);
+  const cookiesArray = decodedCookies.split(';');
+  
+  for (let cookie of cookiesArray) {
+    const [key, value] = cookie.trim().split('=');
+    if (key === name) {
+      return value;
+    }
+  }
+
+  return null; // Return null if cookie not found
+}
+
+export const BASE_URL = 'http://localhost:8085';

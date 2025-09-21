@@ -57,7 +57,7 @@ export default function Page({ params }) {
                 </p>
               </div>
 
-              <Button styles={{borderRadius: '5px', marginBottom: '12px'}} fullLength>Design your suit</Button>
+              <Button onClick={() => window.location.pathname += '/create_your_design'} styles={{borderRadius: '5px', marginBottom: '12px'}} fullLength>Design your suit</Button>
 
               {/* Delivery Info */}
               <div className={styles.deliveryInfo}>
@@ -147,7 +147,7 @@ export default function Page({ params }) {
               <div className={styles.stepTitle} style={{marginBottom: '8px'}}>You might be interested in</div>
               <div>Celebrate the magic of the Holiday Season through exceptional</div>
             </div>
-            <Button styles={{width: '50%'}}>Explore More Designs!!!</Button>
+            <Button styles={{width: '50%'}} onClick={() => window.location.pathname += '/catelog'}>Explore More Designs!!!</Button>
           </div>
           
           <div className={styles.productWrapper}>
