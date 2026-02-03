@@ -162,11 +162,11 @@ console.log("Loading:", `/kurti/embroidary/01.png`);
                 {!isToggled && <canvas className={styles.img} ref={canvasRef} width={1200} height={1700} />}
                 {isToggled && <img className={styles.img} style={{left: '40%', width: '60%'}} src="/png/model.png" />}
 
-                <div className={styles.finalWrapper}>
+                {/* <div className={styles.finalWrapper}>
                     <div className={styles.itemNo}>1 Item in your cart</div>
                     <div className={styles.itemVal}>₹23,170</div>
                     <Button>Save and add to cart</Button>
-                </div>
+                </div> */}
             </div>
             <div className={styles.selection}>
                 {
