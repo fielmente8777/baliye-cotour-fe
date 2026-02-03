@@ -1,14 +1,15 @@
 'use client';
 
-import React from "react";
-import styles from './NavBar.module.css';
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import styles from './NavBar.module.css';
 
 const NavBar = () => {
+    const [token, setToken] = useState(null);
     function getCookieValue(key) {
         const name = key + "=";
         if (typeof window !== undefined) {
-            const decodedCookies = decodeURIComponent(window?.document?.cookie);
+            const decodedCookies = decodeURIComponent(document?.cookie);
             const cookiesArray = decodedCookies.split(';');
             for (let i = 0; i < cookiesArray.length; i++) {
                 let cookie = cookiesArray[i].trim();
@@ -20,7 +21,11 @@ const NavBar = () => {
         return null;
     }
 
-    const token = getCookieValue("baliye-token");
+    // const token = getCookieValue("baliye-token");
+     useEffect(() => {
+        const tkn = getCookieValue("baliye-token");
+        setToken(tkn);
+    }, []);
 
     return (
         <div className={styles.navbar}>
